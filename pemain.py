@@ -155,8 +155,11 @@ def ubah_pemain():
 
     new_tim = input("Pindah ke TIM lain? (nama TIM / Enter): ").strip() or tim
     new_game = input("Game baru (Enter lewati): ").strip()
+
+    # Perbaikan jenis kelamin: seperti tanggal lahir, salah input tidak diubah
     new_jk = input("Jenis kelamin baru (L/P/Enter): ").upper().strip()
     if new_jk not in ("L", "P"):
+        print("❌ Input salah! Jenis kelamin tidak diubah.")
         new_jk = None
 
 
@@ -182,6 +185,7 @@ def ubah_pemain():
             print(f"ℹ Tim '{tim}' otomatis dihapus.")
 
     print("✅ Data pemain berhasil diperbarui!\n")
+
 
 
 def hapus_pemain():

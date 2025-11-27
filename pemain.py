@@ -115,3 +115,91 @@ def lihat_semua_pemain():
             tabel.add_row([nama, p["umur"], p["tgl"], p["game"], p["jk"]])
 
         print(tabel)
+
+
+def ubah_pemain():
+    tim = input("Masukkan TIM pemain: ").strip()
+    if tim not in data_pemain:
+        print(f"❌ Tim '{tim}' tidak ditemukan.\n")
+        return
+
+    nama = input("Masukkan nama pemain: ").strip()
+    if nama not in data_pemain[tim]:
+        print("❌ Nama pemain tidak ditemukan!\n")
+        return
+
+    data = data_pemain[tim][nama]
+
+
+    new_nama = input("Nama baru (Enter lewati): ").strip() or nama
+
+    new_umur_in = input("Umur baru (Enter lewati): ").strip()
+    new_umur = None
+    if new_umur_in:
+        try:
+            umur_val = int(new_umur_in)
+            if umur_val > 0:
+                new_umur = umur_val
+            else:
+                print("❌ Umur harus lebih dari 0! Tidak diubah.")
+        except:
+            print("❌ Umur harus angka! Tidak diubah.")
+
+    new_tgl = input("Tanggal lahir baru (dd-mm-yyyy / Enter lewati): ").strip()
+    if new_tgl:
+        try:
+            d, m, y = map(int, new_tgl.split("-"))
+        except:
+            print("❌ Format tanggal salah! Tidak diubah.")
+            new_tgl = None
+
+    new_tim = input("Pindah ke TIM lain? (nama TIM / Enter): ").strip() or tim
+    new_game = input("Game baru (Enter lewati): ").strip()
+    new_jk = input("Jenis kelamin baru (L/P/Enter): ").upper().strip()
+    if new_jk not in ("L", "P"):
+        new_jk = None
+
+
+    if new_nama != nama:
+        data_pemain[tim][new_nama] = data_pemain[tim].pop(nama)
+        nama = new_nama
+
+    if new_umur is not None:
+        data["umur"] = new_umur
+    if new_tgl:
+        data["tgl"] = new_tgl
+    if new_game:
+        data["game"] = new_game
+    if new_jk:
+        data["jk"] = new_jk
+
+    if new_tim != tim:
+        if new_tim not in data_pemain:
+            data_pemain[new_tim] = {}
+        data_pemain[new_tim][nama] = data_pemain[tim].pop(nama)
+        if not data_pemain[tim]:
+            del data_pemain[tim]
+            print(f"ℹ Tim '{tim}' otomatis dihapus.")
+
+    print("✅ Data pemain berhasil diperbarui!\n")
+
+
+def hapus_pemain():
+    tim = input("Masukkan TIM pemain: ").strip()
+
+    if tim not in data_pemain:
+        print(f"❌ Tim '{tim}' tidak ditemukan.\n")
+        return
+
+    nama = input("Masukkan nama pemain: ").strip()
+
+    try:
+        del data_pemain[tim][nama]
+        print(f"✅ Pemain '{nama}' berhasil dihapus.\n")
+    except KeyError:
+        print("❌ Nama pemain tidak ditemukan!\n")
+        return
+
+    if not data_pemain[tim]:
+        del data_pemain[tim]
+        print(f"ℹ Tim '{tim}' otomatis dihapus karena kosong.\n")

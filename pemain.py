@@ -82,3 +82,36 @@ def cari_pemain():
 
     print(tabel)
     print()
+
+def lihat_pemain_berdasarkan_tim():
+    tim = input("Masukkan nama TIM: ").strip()
+
+    if tim not in data_pemain:
+        print(f"❌ Tim '{tim}' tidak ditemukan.\n") 
+        return
+
+    print(f"\n=== TIM {tim.upper()} ===")
+    tabel = PrettyTable()
+    tabel.field_names = ["Nama", "Umur", "Tanggal Lahir", "Game", "Jenis Kelamin"]
+
+    for nama, p in data_pemain[tim].items():
+        tabel.add_row([nama, p["umur"], p["tgl"], p["game"], p["jk"]])
+
+    print(tabel)
+    print()
+
+
+def lihat_semua_pemain():
+    if not data_pemain:
+        print("\n❗ Belum ada pemain.\n")
+        return
+
+    for tim, pemain in data_pemain.items():
+        print(f"\n=== TIM {tim.upper()} ===")
+        tabel = PrettyTable()
+        tabel.field_names = ["Nama", "Umur", "Tanggal Lahir", "Game", "Jenis Kelamin"]
+
+        for nama, p in pemain.items():
+            tabel.add_row([nama, p["umur"], p["tgl"], p["game"], p["jk"]])
+
+        print(tabel)

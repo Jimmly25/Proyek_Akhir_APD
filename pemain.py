@@ -2,7 +2,6 @@ from prettytable import PrettyTable
 
 data_pemain = {}  
 
-
 def tambah_pemain():
     print("\n=== TAMBAH PEMAIN ===")
 
